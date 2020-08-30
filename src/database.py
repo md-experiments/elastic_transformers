@@ -2,17 +2,29 @@ from elasticsearch import Elasticsearch, helpers
 import datetime
 import json
 import pandas as pd
+import tqdm
+import os
 from src.logger import logger
 
-class ElasticSearchClass():
-    def __init__(self,url='http://localhost:9200'):
+class ElasticSearchClass(object):
+    def __init__(self,url='http://localhost:9200', index_name=None):
         self.url=url
         self.es=Elasticsearch(self.url)
+        self.index_name=index_name
+        self.index_file=None
 
     def ping(self):
         return self.es.ping()
 
-    def create_index_file(self, index_name,folder,text_fields=[], dense_fields=[], dense_fields_dim=512, shards=3, replicas=1):
+    def create_index_spec(self, index_name=None,folder='index_spec',text_fields=[], keyword_fields=[], dense_fields=[], dense_fields_dim=512, shards=3, replicas=1):
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+
+        if not index_name:
+            if self.index_name:
+                index_name=self.index_name
+            else:
+                raise ValueError('index_name not provided') 
         index_spec={}
 
         index_spec['settings']={
@@ -33,33 +45,62 @@ class ElasticSearchClass():
                     "type": "text"
                 }
 
+        for k in keyword_fields: 
+            index_spec['mappings']['properties'][t]={
+                    "type": "keyword"
+                }
+
         for d in dense_fields: 
             index_spec['mappings']['properties'][d]={
                     "type": "dense_vector",
                     "dims": dense_fields_dim
                 }
 
-        with open(f'{folder}/spec_{index_name}.json', 'w') as index_file:
+        index_file_name=f'{folder}/spec_{index_name}.json'
+        with open(index_file_name, 'w') as index_file:
             json.dump(index_spec,index_file)
+        self.index_file=index_file_name
+        return index_spec
 
+    def create_index(self, index_name=None, index_file=None):
 
-    def create_index(self, index_name, index_file=None):
-
-        print(f"Creating the '{index_name}' index.")
+        if not index_name:
+            if self.index_name:
+                index_name=self.index_name
+            else:
+                raise ValueError('index_name not provided') 
+        print(f"Creating '{index_name}' index.")
         self.es.indices.delete(index=index_name, ignore=[404])
-
-        if not index_file:
-            source={
+        
+        if index_file or self.index_file:
+            if self.index_file:
+                index_file=self.index_file
+            with open(index_file) as index_file:
+                index_spec = index_file.read().strip()
+                
+        else:
+            index_spec={
                 "number_of_shards": 3,
                 "number_of_replicas": 1
             }
 
-        with open(index_file) as index_file:
-            source = index_file.read().strip()
-            self.es.indices.create(index=index_name, body=source)
+        self.es.indices.create(index=index_name, body=index_spec)
 
-    def write(self,index_name,docs,index_field=None):
+    def write(self,docs,index_name=None,index_field=None):
+        """
+        Writes entries to index
 
+        Args:
+            docs (iterable) iterable with keys matching index field names from index specification
+            index_name (string, optional) name of index, defaults to index name defined when initiating the class
+            index_field (string, optional) name of index field if present in docs. Defaults to elasicsearch indexing otherwise
+        
+        """
+        if not index_name:
+            if self.index_name:
+                index_name=self.index_name
+            else:
+                raise ValueError('index_name not provided')
         requests = []
         for i, doc in enumerate(docs):
             request = doc
@@ -70,22 +111,34 @@ class ElasticSearchClass():
             requests.append(request)
         helpers.bulk(self.es, requests)
 
-    def write_large_file(self, file_path, index_name, chunksize=10000, index_field='item_id'):
+    def write_large_csv(self, file_path, index_name=None, chunksize=10000, embedder=None, field_to_embed=None, index_field=None):
         """
-        Assume file is csv
+        Iteratively reads through a csv file and writes it to elastic in batches
+
+
         """
+        if not index_name:
+            if self.index_name:
+                index_name=self.index_name
+            else:
+                raise ValueError('index_name not provided')
         # read the large csv file with specified chunksize 
-        df_chunk = pd.read_csv(file_path, chunksize=chunksize)
+        df_chunk = pd.read_csv(file_path, chunksize=chunksize, index_col=0)
 
         chunk_list = []  # append each chunk df here 
 
         # Each chunk is in df format
-        for chunk in tqdm.tqdm(df_chunk):  
-            # perform data filtering 
+        for chunk in tqdm.tqdm(df_chunk): 
+            chunk[f'{field_to_embed}_embedding']=embedder(chunk[field_to_embed].values)
             chunk_ls=json.loads(chunk.to_json(orient='records'))
-            self.write(index_name,chunk_ls,index_field=index_field)
+            self.write(chunk_ls,index_name,index_field=index_field)
 
-    def sample(self, index_name, size=3):
+    def sample(self, index_name=None, size=3):
+        if not index_name:
+            if self.index_name:
+                index_name=self.index_name
+            else:
+                raise ValueError('index_name not provided')
         return self.es.search(index=index_name, size=3)
 
     def search(self, index_name, field, query, type='match', size=10):
