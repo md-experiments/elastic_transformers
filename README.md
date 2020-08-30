@@ -1,5 +1,9 @@
 # ElasticTransformers
+Semantic Elasticsearch with Sentence Transformers. This repo combines together the following amazing works by brilliant people
 
+[sentence-transformers](https://github.com/UKPLab/sentence-transformers)
+[transformers](https://github.com/huggingface/transformers)
+[Elasticsearch](https://www.elastic.co/home)
 
 ## Setup
 ### Set up your environment
@@ -11,7 +15,7 @@ pip install -r requirements.txt
 ```
 
 ### Get the data
-For this tutorial I am using A Million News Headlines dataset by Rohk, found [here](https://www.kaggle.com/therohk/million-headlines "Kaggle A Million News Headlines") and place it in the data folder inside the project dir.   
+For this tutorial I am using [A Million News Headlines dataset by Rohk](https://www.kaggle.com/therohk/million-headlines "Kaggle A Million News Headlines") and place it in the data folder inside the project dir.   
 You will find that the steps are otherwise pretty abstracted so you can also do this with your dataset of choice
 
 ### Elasticsearch with Docker
