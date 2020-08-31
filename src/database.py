@@ -90,7 +90,7 @@ class ElasticTransformers(object):
         with open(index_file_name, 'w') as index_file:
             json.dump(index_spec,index_file)
         self.index_file=index_file_name
-        logger.debug(f'Index spec {index_file} created')
+        logger.debug(f'Index spec {self.index_file} created')
         return index_spec
 
     def create_index(self, index_name=None, index_file=None):
@@ -193,7 +193,7 @@ class ElasticTransformers(object):
                 index_name=self.index_name
             else:
                 raise ValueError('index_name not provided')
-        res=self.es.search(index=index_name, size=3)
+        res=self.es.search(index=index_name, size=size)
         logger.debug(f"Successfully sampled {len(res['hits']['hits'])} docs from {index_name}")
         return res
 

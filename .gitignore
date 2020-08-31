@@ -3,6 +3,6 @@
 .vscode/
 __pycache__/
 index_spec
-notebooks
+
 logs/
 data/
