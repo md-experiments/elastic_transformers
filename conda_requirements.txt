@@ -1,0 +1,34 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: win-64
+aiohttp=3.6.2=pypi_0
+async-timeout=3.0.1=pypi_0
+attrs=20.1.0=pypi_0
+blas=1.0=mkl
+certifi=2020.6.20=py37_0
+chardet=3.0.4=pypi_0
+cudatoolkit=10.2.89=h74a9793_1
+elasticsearch=7.9.1=pypi_0
+idna=2.10=pypi_0
+intel-openmp=2020.2=254
+mkl=2020.2=256
+mkl-service=2.3.0=py37hb782905_0
+mkl_fft=1.1.0=py37h45dec08_0
+mkl_random=1.1.1=py37h47e9c7a_0
+multidict=4.7.6=pypi_0
+ninja=1.10.0=py37h7ef1ec2_0
+numpy=1.19.1=py37h5510c5b_0
+numpy-base=1.19.1=py37ha3acd2a_0
+pip=20.2.2=py37_0
+python=3.7.0=hea74fb7_0
+pytorch=1.6.0=py3.7_cuda102_cudnn7_0
+pyyaml=5.3.1=pypi_0
+setuptools=49.6.0=py37_0
+six=1.15.0=py_0
+typing-extensions=3.7.4.3=pypi_0
+urllib3=1.25.10=pypi_0
+vc=14.1=h0510ff6_4
+vs2015_runtime=14.16.27012=hf0eaf9b_3
+wheel=0.35.1=py_0
+wincertstore=0.2=py37_0
+yarl=1.5.1=pypi_0
