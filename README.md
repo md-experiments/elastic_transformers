@@ -38,7 +38,6 @@ For this tutorial, you only need to run the two steps:
  - [Starting a single node cluster with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-dev-mode)
 
 ## Usage
-
 After successful setup, use the folling notebooks to make this all work  
-- [Pulling the image](../notebooks/Setting up ElasticTransformers.ipynb)
-- [Searching](../notebooks/Searching with ElasticTransformers.ipynb)
+- [Setting up the index](../notebooks/Setting_up_ElasticTransformers.ipynb)
+- [Searching](../notebooks/Searching_with_ElasticTransformers.ipynb)
