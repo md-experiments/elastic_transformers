@@ -6,7 +6,7 @@ import tqdm
 import os
 from src.logger import logger
 
-class ElasticSearchClass(object):
+class ElasticTransformers(object):
     def __init__(self,url='http://localhost:9200', index_name=None):
         """
         Initializes class
@@ -15,8 +15,6 @@ class ElasticSearchClass(object):
             url (string) full url for elastic
             index_name (string, optional) name of index can be used as the default index across all methods for this class instance should this apply
         """
-
-
         self.url=url
         self.es=Elasticsearch(self.url)
         self.index_name=index_name
@@ -29,7 +27,10 @@ class ElasticSearchClass(object):
         Returns:
             True if healthy, False otherwise
         """
-        return self.es.ping()
+        ping=self.es.ping()
+        if ping:
+            logger.debug(f'Ping successful')
+        return ping
 
     def create_index_spec(self, index_name=None,folder='index_spec',text_fields=[], keyword_fields=[], dense_fields=[], dense_fields_dim=512, shards=3, replicas=1):
         """
@@ -89,10 +90,19 @@ class ElasticSearchClass(object):
         with open(index_file_name, 'w') as index_file:
             json.dump(index_spec,index_file)
         self.index_file=index_file_name
+        logger.debug(f'Index spec {index_file} created')
         return index_spec
 
     def create_index(self, index_name=None, index_file=None):
-
+        """
+        Create index (index_name) based on file (index_file) containing index mapping
+        NOTE: existing index of this name will be deleted
+        
+        Args:
+            index_name (string, optional): name of index, defaults to index name defined when initiating the class
+            index_file (string, optional): index spec file location, if none provided, will use mapping from create_index_spec else will create blank mapping
+        
+        """
         if not index_name:
             if self.index_name:
                 index_name=self.index_name
@@ -168,6 +178,7 @@ class ElasticSearchClass(object):
                 chunk[f'{field_to_embed}_embedding']=embedder(chunk[field_to_embed].values)
             chunk_ls=json.loads(chunk.to_json(orient='records'))
             self.write(chunk_ls,index_name,index_field=index_field)
+            logger.debug(f'Successfully wrote {len(chunk_ls)} docs to {index_name}')
 
     def sample(self, index_name=None, size=3):
         """
@@ -182,7 +193,9 @@ class ElasticSearchClass(object):
                 index_name=self.index_name
             else:
                 raise ValueError('index_name not provided')
-        return self.es.search(index=index_name, size=3)
+        res=self.es.search(index=index_name, size=3)
+        logger.debug(f"Successfully sampled {len(res['hits']['hits'])} docs from {index_name}")
+        return res
 
     def search(self, query, field, type='match', index_name=None, embedder=None, size=10):
         """
@@ -203,7 +216,7 @@ class ElasticSearchClass(object):
         if type=='dense':
             if not embedder:
                 raise ValueError('Dense search requires embedder')
-            query_vector = embedder([query])[0]
+            query_vector = embedder([query])[0].tolist()
 
             script_query = {
                 "script_score": {
@@ -235,5 +248,5 @@ class ElasticSearchClass(object):
             df=pd.DataFrame(out,columns=['_score']+keys)
         else:
             df=pr.DataFrame([])
-        logger.debug(f'Search {type.upper()} {query} in {index_name}.{field} returned {len(df)} results')
+        logger.debug(f'Search {type.upper()} {query} in {index_name}.{field} returned {len(df)} results of {size} requested')
         return df

@@ -1,8 +1,8 @@
 # ElasticTransformers
 Semantic Elasticsearch with Sentence Transformers. This repo combines together the following amazing works by brilliant people
 
-[sentence-transformers](https://github.com/UKPLab/sentence-transformers)
-[transformers](https://github.com/huggingface/transformers)
+[sentence-transformers](https://github.com/UKPLab/sentence-transformers)  
+[transformers](https://github.com/huggingface/transformers)  
 [Elasticsearch](https://www.elastic.co/home)
 
 ## Setup
