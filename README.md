@@ -21,10 +21,11 @@ pip install -r requirements.txt
 
 ### Get the data
 For this tutorial I am using [A Million News Headlines](https://www.kaggle.com/therohk/million-headlines "Kaggle A Million News Headlines") by Rohk and place it in the data folder inside the project dir.   
-You will find that the steps are otherwise pretty abstracted so you can also do this with your dataset of choice
 
 	    elastic_transformers/
 	    ├── data/
+
+You will find that the steps are otherwise pretty abstracted so you can also do this with your dataset of choice
 
 ### Elasticsearch with Docker
 Follow the instructions on setting up Elastic with Docker from Elastic's page [here](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html)
