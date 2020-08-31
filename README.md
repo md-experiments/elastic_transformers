@@ -4,12 +4,12 @@ Semantic Elasticsearch with Sentence Transformers. We will use the power of Elas
 This repo combines together the following amazing works by brilliant people
 
 ### The ML part
-[sentence-transformers](https://github.com/UKPLab/sentence-transformers)  
-[transformers](https://github.com/huggingface/transformers)  
-[BERT](https://github.com/google-research/bert)
+- [sentence-transformers](https://github.com/UKPLab/sentence-transformers)  
+- [transformers](https://github.com/huggingface/transformers)  
+- [BERT](https://github.com/google-research/bert)
 ### The engineering part
-[Elasticsearch](https://www.elastic.co/home)  
-[Docker](https://hub.docker.com)
+- [Elasticsearch](https://www.elastic.co/home)  
+- [Docker](https://hub.docker.com)
 
 ## Overview
 We will use the above to 
@@ -40,5 +40,5 @@ For this tutorial, you only need to run the two steps:
 ## Usage
 
 After successful setup, use the folling notebooks to make this all work
-- Setting up the index
-- Searching
+- [Setting up the index](../notebooks/Setting up ElasticTransformers.ipynb)
+- [Searching](../notebooks/Searching with ElasticTransformers.ipynb)
