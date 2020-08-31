@@ -1,15 +1,7 @@
 # ElasticTransformers
-Semantic Elasticsearch with Sentence Transformers. We will use the power of Elasti and the magic of BERT to idnex a million articles and perform lexical and semantic search on them. The main contribution here is the ease of use to create your own local search engine
+Semantic Elasticsearch with Sentence Transformers. We will use the power of Elastic and the magic of BERT to idnex a million articles and perform lexical and semantic search on them.  
 
-This repo combines together the following amazing works by brilliant people
-
-### The ML part
-- [sentence-transformers](https://github.com/UKPLab/sentence-transformers)  
-- [transformers](https://github.com/huggingface/transformers)  
-- [BERT](https://github.com/google-research/bert)
-### The engineering part
-- [Elasticsearch](https://www.elastic.co/home)  
-- [Docker](https://hub.docker.com)
+The purpose is to provide an ease-of-use way of setting up your own Elasticsearch with near state of the art capabilities of contextual embeddings / semantic search using NLP transformers.  
 
 ## Overview
 We will use the above to 
@@ -41,3 +33,14 @@ For this tutorial, you only need to run the two steps:
 After successful setup, use the folling notebooks to make this all work  
 - [Setting up the index](../master/notebooks/Setting_up_ElasticTransformers.ipynb)
 - [Searching](../master/notebooks/Searching_with_ElasticTransformers.ipynb)
+
+## References
+This repo combines together the following amazing works by brilliant people. Please check out their work if you haven't done so yet...
+
+### The ML part
+- [sentence-transformers](https://github.com/UKPLab/sentence-transformers)  
+- [transformers](https://github.com/huggingface/transformers)  
+- [BERT](https://github.com/google-research/bert)
+### The engineering part
+- [Elasticsearch](https://www.elastic.co/home)  
+- [Docker](https://hub.docker.com)
