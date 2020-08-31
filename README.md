@@ -39,5 +39,5 @@ For this tutorial, you only need to run the two steps:
 
 ## Usage
 After successful setup, use the folling notebooks to make this all work  
-- [Setting up the index](../notebooks/Setting_up_ElasticTransformers.ipynb)
-- [Searching](../notebooks/Searching_with_ElasticTransformers.ipynb)
+- [Setting up the index](../master/notebooks/Setting_up_ElasticTransformers.ipynb)
+- [Searching](../master/notebooks/Searching_with_ElasticTransformers.ipynb)
