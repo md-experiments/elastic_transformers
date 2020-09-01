@@ -12,7 +12,7 @@ We will use the above to
 
 ## Setup
 ### Set up your environment
-Mine environment is called `et` and I use conda for this. Navigate inside the project directory
+My environment is called `et` and I use conda for this. Navigate inside the project directory
 ```
 conda create --name et python=3.7  
 conda install -n et nb_conda_kernels  
