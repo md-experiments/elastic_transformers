@@ -4,9 +4,14 @@ Semantic Elasticsearch with Sentence Transformers. We will use the power of Elas
 The purpose is to provide an ease-of-use way of setting up your own Elasticsearch with near state of the art capabilities of contextual embeddings / semantic search using NLP transformers.  
 
 ## Overview
-We will use the above to 
+
+<p align="center">
+  <img src="assets/architecture.png" width=400>
+</p>
+
+The above setup works as follows
 - Set up an Elasticsearch server with Dockers
-- Collect A Million News Headlines
+- Collect the dataset
 - Use sentence-transformers to index them onto Elastic (takes about 6 hrs on 2 CPU cores)
 - Look at some comparison examples between lexical and semantic search
 
@@ -34,12 +39,6 @@ For this tutorial, you only need to run the two steps:
  - [Starting a single node cluster with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-dev-mode)
 
 ## Features
-
-This is an overview of the system setup
-
-<p align="center">
-  <img src="assets/architecture.png" width=400>
-</p>
 
 The repo introduces the ElasiticTransformers class. Utilities which help create, index and query Elasticsearch indices which include embeddings
 
