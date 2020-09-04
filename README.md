@@ -33,6 +33,37 @@ For this tutorial, you only need to run the two steps:
  - [Pulling the image](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#_pulling_the_image)
  - [Starting a single node cluster with Docker](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-cli-run-dev-mode)
 
+## Features
+
+This is an overview of the system setup
+
+<p align="center">
+  <img src="assets/architecture.png" width=400>
+</p>
+
+The repo introduces the ElasiticTransformers class. Utilities which help create, index and query Elasticsearch indices which include embeddings
+
+```
+# initiate the connection links as well as (optionally) the name of the index to work with
+et=ElasticTransformers(url='http://localhost:9300',index_name='et-tiny')
+
+# create_index_spec creates the specification for the index. Lists of relevant fields can be provided based on whether those would be needed for keyword search or semantic (dense vector) search. It also has parameters for the size of the dense vector as those can vary
+et.create_index_spec(
+    text_fields=['publish_date','headline_text'],
+    dense_fields=['headline_text_embedding'],
+    dense_fields_dim=768
+)
+# create_index - uses the spec created earlier to create an index ready for search
+et.create_index()
+# write_large_csv - breaks up a large csv file into chunks and iteratively uses a predefined embedding utility to create the embeddings list for each chunk and subsequently feed results to the index
+et.write_large_csv('data/tiny_sample.csv',
+                  chunksize=1000,
+                  embedder=embed_wrapper,
+                  field_to_embed='headline_text')
+# search - allows to select either keyword (‘match’ in Elastic) or semantic (dense in Elastic) search. Notably it requires the same embedding function used in write_large_csv
+et.search(query='search these terms',field='headline_text',type='match',embedder=embed_wrapper, size = 1000)
+```
+
 ## Usage
 After successful setup, use the folling notebooks to make this all work  
 - [Setting up the index](../master/notebooks/Setting_up_ElasticTransformers.ipynb)
