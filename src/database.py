@@ -213,6 +213,12 @@ class ElasticTransformers(object):
             DataFrame with results and search score
         """
         res=[]
+
+        if not index_name:
+            if self.index_name:
+                index_name=self.index_name
+            else:
+                raise ValueError('index_name not provided')
         if type=='dense':
             if not embedder:
                 raise ValueError('Dense search requires embedder')

@@ -12,7 +12,7 @@ The purpose is to provide an ease-of-use way of setting up your own Elasticsearc
 The above setup works as follows
 - Set up an Elasticsearch server with Dockers
 - Collect the dataset
-- Use sentence-transformers to index them onto Elastic (takes about 6 hrs on 2 CPU cores)
+- Use sentence-transformers to index them onto Elastic (takes about 3 hrs on 4 CPU cores)
 - Look at some comparison examples between lexical and semantic search
 
 ## Setup
