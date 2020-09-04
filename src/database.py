@@ -216,7 +216,7 @@ class ElasticTransformers(object):
         if type=='dense':
             if not embedder:
                 raise ValueError('Dense search requires embedder')
-            query_vector = embedder([query])[0].tolist()
+            query_vector = embedder([query])[0]
 
             script_query = {
                 "script_score": {
@@ -237,8 +237,8 @@ class ElasticTransformers(object):
                 }
             )
         else:
-            res=self.es.search(index=index_name, body={'query':{type:{field:query}}},size=size)
-
+            res=self.es.search(index=index_name, body={'query':{type:{field:query}}, "_source": {"excludes": [f'{field}_embedding']}},size=size)
+        self.search_raw_result=res
         hits=res['hits']['hits']
         if len(hits)>0:
             keys=list(hits[0]['_source'].keys())
@@ -247,6 +247,7 @@ class ElasticTransformers(object):
 
             df=pd.DataFrame(out,columns=['_score']+keys)
         else:
-            df=pr.DataFrame([])
+            df=pd.DataFrame([])
+        self.search_df_result=df
         logger.debug(f'Search {type.upper()} {query} in {index_name}.{field} returned {len(df)} results of {size} requested')
         return df

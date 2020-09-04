@@ -7,7 +7,10 @@ if not os.path.exists('logs'):
 
 # Create a custom logger
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+
+# commenting out this line will activate logging
+logger.setLevel(logging.WARNING)
+
 # Create handlers
 dt=str(datetime.date.today()).replace('-','')
 f_handler = logging.FileHandler(f'logs/q_logs_{dt}.log')
