@@ -6,7 +6,7 @@ The purpose is to provide an ease-of-use way of setting up your own Elasticsearc
 ## Overview
 
 <p align="center">
-  <img src="assets/architecture.png" width=400>
+  <img src="assets/architecture.png" width=800>
 </p>
 
 The above setup works as follows
