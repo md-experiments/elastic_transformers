@@ -1,5 +1,5 @@
 # ElasticTransformers
-Semantic Elasticsearch with Sentence Transformers. We will use the power of Elastic and the magic of BERT to idnex a million articles and perform lexical and semantic search on them.  
+Semantic Elasticsearch with Sentence Transformers. We will use the power of Elastic and the magic of BERT to index a million articles and perform lexical and semantic search on them.  
 
 The purpose is to provide an ease-of-use way of setting up your own Elasticsearch with near state of the art capabilities of contextual embeddings / semantic search using NLP transformers.  
 
@@ -20,7 +20,8 @@ The above setup works as follows
 My environment is called `et` and I use conda for this. Navigate inside the project directory
 ```
 conda create --name et python=3.7  
-conda install -n et nb_conda_kernels  
+conda install -n et nb_conda_kernels
+conda activate et
 pip install -r requirements.txt
 ```
 
