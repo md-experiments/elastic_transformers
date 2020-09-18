@@ -43,12 +43,12 @@ For this tutorial, you only need to run the two steps:
 
 The repo introduces the ElasiticTransformers class. Utilities which help create, index and query Elasticsearch indices which include embeddings
 
-Initialize class as well as (optionally) the name of the index to work with
+**Initialize class** as well as (optionally) the name of the index to work with
 ```python
 et=ElasticTransformers(url='http://localhost:9300',index_name='et-tiny')
 ```
 
-Create the specification for the index. Lists of relevant fields can be provided based on whether those would be needed for keyword search or semantic (dense vector) search. It also has parameters for the size of the dense vector as those can vary
+**Create specification** for the index. Lists of relevant fields can be provided based on whether those would be needed for keyword search or semantic (dense vector) search. It also has parameters for the size of the dense vector as those can vary
 
 ```python
 et.create_index_spec(
@@ -58,13 +58,13 @@ et.create_index_spec(
 )
 ```
 
-Create index - uses the spec created earlier to create an index ready for search
+**Create index** - uses the spec created earlier to create an index ready for search
 
 ```python
 et.create_index()
 ```
 
-Write to index - breaks up a large csv file into chunks and iteratively uses a predefined embedding utility to create the embeddings list for each chunk and subsequently feed results to the index
+**Write to index** - breaks up a large csv file into chunks and iteratively uses a predefined embedding utility to create the embeddings list for each chunk and subsequently feed results to the index
 
 ```python
 et.write_large_csv('data/tiny_sample.csv',
@@ -73,7 +73,7 @@ et.write_large_csv('data/tiny_sample.csv',
                   field_to_embed='headline_text')
 ```
 
-Search - can select either keyword (‘match’ in Elastic) or contextual ('dense' in Elastic) search. Note, it requires the same embedding function used in write_large_csv
+**Search** - can select either keyword (‘match’ in Elastic) or contextual ('dense' in Elastic) search. Note, it requires the same embedding function used in write_large_csv
 
 ```python
 et.search(query='search these terms',field='headline_text',type='match',embedder=embed_wrapper, size = 1000)
