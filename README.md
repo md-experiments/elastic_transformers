@@ -72,7 +72,11 @@ et.write_large_csv('data/tiny_sample.csv',
 *search* - allows to select either keyword (‘match’ in Elastic) or semantic (dense in Elastic) 
 search. Notably it requires the same embedding function used in write_large_csv
 ```py
-et.search(query='search these terms',field='headline_text',type='match',embedder=embed_wrapper, size = 1000)
+et.search(query='search these terms',
+          field='headline_text',
+          type='match',
+          embedder=embed_wrapper, 
+          size = 1000)
 ```
 
 ## Usage
